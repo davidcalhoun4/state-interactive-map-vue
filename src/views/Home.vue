@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <h2 v-for="state in states" v-bind:key="state">
+      {{ state.name }}
+      <br />
+      {{ state.code }}
+      <br />
+      Median Household Income: {{ state.med_inc }}
+      <br />
+      Unemployment: {{ state.per_unemp_seas }}
+      <br />
+      Population in Metro: {{ state.per_pop_metro }}
+      <br />
+      Population High School Degree: {{ state.per_pop_high }}
+    </h2>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+<style></style>
 
+<script>
+import axios from "axios";
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
+  data: function () {
+    return {
+      states: [],
+    };
   },
+  created: function () {
+    axios.get("/api/states/").then((response) => {
+      console.log("states index", response);
+      this.states = response.data;
+    });
+  },
+  methods: {},
 };
 </script>
